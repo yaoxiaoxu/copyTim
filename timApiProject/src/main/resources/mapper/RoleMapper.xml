@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yaoxx.mapper.sys.RoleMapper">
+  <resultMap id="BaseResultMap" type="com.yaoxx.entity.sys.Role">
+    <id column="rid" jdbcType="INTEGER" property="rid" />
+    <result column="rname" jdbcType="VARCHAR" property="rname" />
+    
+    <!--		 property: 指的是集合属性的值(类中的),
+		     	 ofType：指的是集合中元素的类型, 
+		     	 column: 指的是根据本条数据的哪一列查询
+		     	 fetchType="lazy" 懒加载（使用时才查询） -->
+    <collection  property="permissions" 
+    			 ofType="com.yaoxx.entity.Permission"
+    			 column="rid"
+    			 select="com.yaoxx.mapper.sys.PermissionMapper.selectByRid"></collection>
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from role
+    where rid = #{rid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yaoxx.entity.sys.Role">
+    insert into role (rid, rname)
+    values (#{rid,jdbcType=INTEGER}, #{rname,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yaoxx.entity.sys.Role">
+    update role
+    set rname = #{rname,jdbcType=VARCHAR}
+    where rid = #{rid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select rid, rname
+    from role
+    where rid = #{rid,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select rid, rname
+    from role
+  </select>
+  <select id="selectByUid" resultMap="BaseResultMap" parameterType="Integer">
+	select r.*
+	from role r
+	left join user_role ur on ur.rid =   r.rid
+	left join user 		u  on u.uid  =   ur.uid 
+	where u.uid = #{uid,jdbcType=INTEGER}
+  </select>
+  <select id="findByParams" resultMap="BaseResultMap" >
+  	select r.* from role r
+  	left join permission_role pr on pr.rId=r.rid
+  	<include refid="params" />
+  </select>
+  <sql id="params">
+	  <where>
+		  <if test="permissionId">pr.pid = #{permissionId,jdbcType=INTEGER}</if>
+	  </where>
+  </sql>
+</mapper>

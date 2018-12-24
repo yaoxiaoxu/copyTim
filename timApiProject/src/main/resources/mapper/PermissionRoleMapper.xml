@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yaoxx.mapper.sys.PermissionRoleMapper">
+  <resultMap id="BaseResultMap" type="com.yaoxx.entity.sys.PermissionRole">
+    <result column="pid" jdbcType="INTEGER" property="pid" />
+    <result column="rid" jdbcType="INTEGER" property="rid" />
+  </resultMap>
+  <insert id="insert" parameterType="com.yaoxx.entity.sys.PermissionRole">
+    insert into permission_role (pid, rid)
+    values (#{pid,jdbcType=INTEGER}, #{rid,jdbcType=INTEGER})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select pid, rid
+    from permission_role
+  </select>
+</mapper>

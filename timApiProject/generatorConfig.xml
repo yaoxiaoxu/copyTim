@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!-- 生成代码的环境配置
+    id: 必选，上下文id，用于在生成错误时提示
+    targetRuntime:
+        1，MyBatis3：默认的值，生成基于MyBatis3.x以上版本的内容，包括XXXBySample的操作；
+        2，MyBatis3Simple：类似MyBatis3，不生成XXXBySample的操作；
+     -->
+	<context id="caigouTables" targetRuntime="MyBatis3Simple">
+	   <!-- 生成的Java文件的编码 -->
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- 格式化java代码 -->
+        <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
+        <!-- 格式化XML代码 -->
+        <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
+        
+        <!-- beginningDelimiter和endingDelimiter：指明数据库的用于标记数据库对象名的符号，比如ORACLE就是双引号，MYSQL默认是`反引号； -->
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+	
+		<commentGenerator>
+			<!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		
+		<!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/timapi" 
+			userId="root"
+			password="root">
+		</jdbcConnection>
+
+		<!-- java类型处理器：
+		     默认false: 把JDBC DECIMAL和NUMERIC类型根据期定义自动解析为Integer、Long或BigDecimal
+		     true: 把JDBC DECIMAL和NUMERIC类型强制解析为BigDecimal -->
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<!-- java模型创建器(PO类)
+		     targetPackage：生成的类要放的包包
+             targetProject：目标位置。需指定一个存在的目录下，生成的内容会放到指定目录中，如果目录不存在，MBG不会自动建目录
+		 -->
+		<javaModelGenerator targetProject="src/main/java" targetPackage="com.yaoxx.controller.personal" >
+			<!-- enableSubPackages: 是否根据数据库的schema再生成一层package -->
+			<property name="enableSubPackages" value="false" />
+			<!-- 设置是否在生成的getter方法中，对String类型字段调用trim()方法 -->
+			<property name="trimStrings" value="false" />
+		</javaModelGenerator>
+		
+        <!-- SQL映射XML文件生成器 -->
+		<sqlMapGenerator targetProject="src/main/java" targetPackage="com.yaoxx.controller.personal">
+			<property name="enableSubPackages" value="false" />
+		</sqlMapGenerator>
+		
+		<!-- Mapper接口生成器
+		     type：选择怎么生成mapper接口（在MyBatis3/MyBatis3Simple下）：
+            1) XMLMAPPER：会生成Mapper接口，接口完全依赖XML； 
+            2) ANNOTATEDMAPPER：会生成使用Mapper接口+Annotation的方式创建（SQL生成在annotation中），不会生成对应的XML；
+            3) MIXEDMAPPER：使用混合配置，会生成Mapper接口，并适当添加合适的Annotation，但是XML会生成在XML中； 
+		 -->
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.yaoxx.controller.personal" 
+			targetProject="src/main/java">
+			<property name="enableSubPackages" value="false" />
+		</javaClientGenerator>
+		
+		<!-- 指定表 -->
+		<table schema="" tableName="t_personal_details" domainObjectName="PersonalDetails">
+			<!-- 是否使用实际列名作为实体类的属性名，默认值false会把列名用驼峰命名法改为属性名 -->
+			<property name="useActualColumnNames" value="false"/>
+			<!-- 将列中的‘c_’前缀替换为‘’ -->
+			<columnRenamingRule searchString="^[c_]+" replaceString="" />
+			<!-- 去除所有表的前缀‘t_’ （好像当前版本不适配）用table标签中的domainObjectName也一样 -->
+<!-- 	    <domainObjectRenamingRule searchString="^[t_]+" replaceString=""  /> -->
+		</table>
+		
+	</context>
+</generatorConfiguration>

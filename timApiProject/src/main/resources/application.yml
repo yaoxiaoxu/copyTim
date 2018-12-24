@@ -1,0 +1,51 @@
+server:
+  port: 8888
+  servlet:
+    context-path: /tim
+  tomcat:
+    uri-encoding: UTF-8
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/timapi?characterEncoding=UTF8&useSSL=true
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+  # activiti default configuration
+  activiti:
+    database-schema-update: true
+    check-process-definitions: true
+    process-definition-location-prefix: classpath*:/processes/
+#    process-definition-location-suffixes:
+#      - **.bpmn
+#      - **.bpmn20.xml
+    history-level: full 
+         
+#  thymeleaf:
+#    encoding: UTF-8
+#    cache: false
+#    mode: HTML
+#    prefix: classpath:/templates/
+#    suffix: .html
+# 如果不是前后端分离的项目应该把下面放开
+#  mvc:
+#    view:
+#      prefix: /view/
+#      suffix: .jsp
+  redis:
+    host: 127.0.0.1
+    password:
+    port: 6379
+    pool: 
+      max-idle: 100
+      min-idle: 1
+      max-active: 1000
+      max-wait: -1
+mybatis:
+  mapper-locations: classpath*:/mapper/**Mapper.xml
+  type-aliases-package: com.yaoxx.entity
+  

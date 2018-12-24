@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yaoxx.mapper.personal.PersonalDetailsMapper">
+  <resultMap id="BaseResultMap" type="com.yaoxx.entity.personal.PersonalDetails">
+    <id column="c_id" jdbcType="INTEGER" property="id" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="c_realname" jdbcType="VARCHAR" property="realname" />
+    <result column="c_birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="c_signature" jdbcType="VARCHAR" property="signature" />
+    <result column="c_nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="c_head_img" jdbcType="VARCHAR" property="headImg" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_personal_details
+    where c_id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yaoxx.entity.personal.PersonalDetails">
+    insert into t_personal_details (c_id, uid, c_realname, 
+      c_birthday, c_signature, c_nickname, 
+      c_head_img)
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{realname,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=TIMESTAMP}, #{signature,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
+      #{headImg,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.yaoxx.entity.personal.PersonalDetails">
+    update t_personal_details
+    set uid = #{uid,jdbcType=INTEGER},
+      c_realname = #{realname,jdbcType=VARCHAR},
+      c_birthday = #{birthday,jdbcType=TIMESTAMP},
+      c_signature = #{signature,jdbcType=VARCHAR},
+      c_nickname = #{nickname,jdbcType=VARCHAR},
+      c_head_img = #{headImg,jdbcType=VARCHAR}
+    where c_id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select c_id, uid, c_realname, c_birthday, c_signature, c_nickname, c_head_img
+    from t_personal_details
+    where c_id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select c_id, uid, c_realname, c_birthday, c_signature, c_nickname, c_head_img
+    from t_personal_details
+  </select>
+  <select id="selectByParams" parameterType="hashmap" resultMap="BaseResultMap">
+  	select * from t_personal_details
+  <include refid="params" />
+  </select>
+  <sql id="params">
+	  <where>
+		  <if test="uid">uid = #{uid,jdbcType=INTEGER}</if>
+	  </where>
+  </sql>
+</mapper>
